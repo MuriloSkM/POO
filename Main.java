@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
         Dono dono = null;
         Pet pet = null;
         Agendamentos agendamentos = new Agendamentos();
@@ -24,25 +25,28 @@ public class Main {
             System.out.println("0 - Sair");
 
             int opcao = scanner.nextInt();
+            System.out.println("\f");
+            
+            //int opcao = Integer.parseint(scanner.nextInt());
             switch (opcao) {
                 case 1:
                     System.out.println("Digite o CPF do cliente:");
-                    String cpf = scanner.nextLine();
+                    String cpf = scanner2.nextLine();
                     System.out.println("Digite o nome do cliente:");
-                    String nome = scanner.nextLine();
+                    String nome = scanner2.nextLine();
                     System.out.println("Digite o email do cliente:");
-                    String email = scanner.nextLine();
+                    String email = scanner2.nextLine();
                     dono = new Dono(cpf, nome, email);
                     break;
                     
                 case 2:
                     if (dono != null) {
                         System.out.println("Digite a raça do pet:");
-                        String raca = scanner.nextLine();
+                        String raca = scanner2.nextLine();
                         System.out.println("Digite o peso do pet:");
-                        double peso = scanner.nextDouble();
+                        double peso = scanner2.nextDouble();
                         System.out.println("Digite o porte do pet:");
-                        String porte = scanner.nextLine();
+                        String porte = scanner2.nextLine();
                         pet = new Pet(raca, peso, porte);
                         dono.addPetAoDono(pet);
                     } else {
@@ -53,11 +57,11 @@ public class Main {
                 case 3:
                     if (dono != null && pet != null) {
                         System.out.println("Digite a data do agendamento (dia):");
-                        int data = scanner.nextInt();
+                        int data = scanner2.nextInt();
                         System.out.println("Digite a hora do agendamento:");
-                        int hora = scanner.nextInt();
+                        int hora = scanner2.nextInt();
                         System.out.println("Digite o valor do procedimento:");
-                        double valor = scanner.nextDouble();
+                        double valor = scanner2.nextDouble();
                         
                         System.out.println("Selecione o procedimento:");
                         System.out.println("1 - Consulta");
@@ -65,7 +69,7 @@ public class Main {
                         System.out.println("3 - Banho");
                         System.out.println("4 - Tosa");
                         System.out.println("5 - Cirurgia");
-                        int opcaoProcedimento = scanner.nextInt();                        
+                        int opcaoProcedimento = scanner2.nextInt();                        
                         Procedimentos procedimentoSelecionado = null;
                         switch (opcaoProcedimento) {
                             case 1:
@@ -101,9 +105,9 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Digite a data (dia) para verificar a disponibilidade: ");
-                    int dataVerificar = scanner.nextInt();
+                    int dataVerificar = scanner2.nextInt();
                     System.out.println("Digite a hora para verificar a disponibilidade: ");
-                    int horaVerificar = scanner.nextInt();                    
+                    int horaVerificar = scanner2.nextInt();                    
                     boolean disponivel = agendamentos.verificarDisponibilidade(dataVerificar, horaVerificar);
                     if (disponivel) {
                         System.out.println("Horário disponível para agendamento!");
@@ -113,7 +117,7 @@ public class Main {
                     break;
                 case 5:
                     System.out.println("Digite o dia para verificar o valor total vendido:");
-                    int dia = scanner.nextInt();
+                    int dia = scanner2.nextInt();
                     double valorTotal = agendamentos.calcularValorTotalDia(dia);
                     System.out.println("Valor total vendido no dia " + dia + ": " + valorTotal);
                     break;
@@ -128,12 +132,14 @@ public class Main {
                             System.out.println("Data: " + procedimentoRealizado.getData() +
                                     ", Hora: " + procedimentoRealizado.getHora() +
                                     ", Procedimento: " + procedimentoRealizado.getProcedimento());
+                                    System.out.println("\f");
                         }
                     }
                     break;
                 case 7:
+                    
                     System.out.println("Digite o nome do cliente: ");
-                    String nomeCliente = scanner.nextLine();
+                    String nomeCliente = scanner2.nextLine();
                     boolean encontrado = false;
                     for(Dono cliente : listaClientes){
                         if(cliente.getNome().equalsIgnoreCase(nomeCliente)){
@@ -147,6 +153,7 @@ public class Main {
                 case 0:
                     System.out.println("Desligando, obrigado!");
                     scanner.close();
+                    scanner2.close();
                     return;
                     
                 default:
