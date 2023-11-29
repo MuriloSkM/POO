@@ -6,8 +6,8 @@
 class Pet extends Animal {
     private String porte;
 
-    public Pet(String raca, double peso, String porte) {
-        super(raca, peso);
+    public Pet(String nomePet, String especie, double peso, String porte) {
+        super(nomePet, especie, peso);
         this.porte = porte;
     }
 
@@ -21,9 +21,9 @@ class Pet extends Animal {
 
     @Override
     public void emitirSom() {
-        if (getRaca().equalsIgnoreCase("Cachorro")) {
+        if (getEspecie().equalsIgnoreCase("Cachorro")) {
             System.out.println("Au au!");
-        } else if (getRaca().equalsIgnoreCase("Gato")) {
+        } else if (getEspecie().equalsIgnoreCase("Gato")) {
             System.out.println("Miau!");
         } else {
             System.out.println("Que bicho exótico!");
