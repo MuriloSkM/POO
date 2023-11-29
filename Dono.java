@@ -13,6 +13,18 @@ public class Dono {
         this.email = email;
         this.petsDoDono = new ArrayList<>();
     }
+    public String getNome() {
+        return nome;
+    }
+    public String getCpf(){
+        return cpf;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public List<Pet> getPetsDoDono(){
+        return petsDoDono;
+    }
 
     public void addPetAoDono(Pet pet) {
         petsDoDono.add(pet);
@@ -21,13 +33,10 @@ public class Dono {
     public void listarPetsDoDono() {
         System.out.println("Filhotes do(a) " + nome + ":");
         for (Pet pet : petsDoDono) {
-            System.out.println("Raça: " + pet.getRaca());
+            System.out.println("Nome: " + pet.getNomePet());
+            System.out.println("Raça: " + pet.getEspecie());
             System.out.println("Porte: " + pet.getPorte());
-            System.out.println("Peso: " + pet.getPeso() + " kg");
+            System.out.println("Peso: " + pet.getPeso() + " kg" + "\n");
         }
-    }
-
-    public String getNome() {
-        return nome;
     }
 }

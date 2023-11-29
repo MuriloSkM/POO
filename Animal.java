@@ -1,18 +1,24 @@
 public abstract class Animal {
-    private String raca;
+    private String nomePet;
+    private String especie;
     private double peso;
 
-    public Animal(String raca, double peso) {
-        this.raca = raca;
+    public Animal(String nomePet, String especie, double peso) {
+        this.nomePet = nomePet;
+        this.especie = especie;
         this.peso = peso;
     }
 
-    public String getRaca() {
-        return raca;
+    public String getNomePet(){
+        return nomePet;
     }
 
-    public void setRaca(String raca) {
-        this.raca = raca;
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
     }
 
     public double getPeso() {
