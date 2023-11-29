@@ -8,12 +8,8 @@ import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) {
-
         Scanner scanOpt = new Scanner(System.in);
         Scanner scanWhile = new Scanner(System.in);
-        
-        Dono dono = null;
-        Pet pet = null;
         Agendamentos agendamentos = new Agendamentos();
         List<Dono> listaClientes = new ArrayList<>();
         List<Agendamento> procedimentosRealizados = new ArrayList<>();
@@ -31,7 +27,6 @@ public class Main {
             System.out.println("9 - Abrir a interface gráfica");
             System.out.println("0 - Sair");
 
-
             int opcao = scanOpt.nextInt();
             System.out.println("");
             
@@ -43,7 +38,6 @@ public class Main {
                 case 1:
                     try {
                     System.out.println("Digite o CPF do cliente:");
-
                     String cpf = scanWhile.nextLine();
                     System.out.println("Digite o nome do cliente:");
                     String nome = scanWhile.nextLine();
@@ -74,12 +68,12 @@ public class Main {
                         if (clienteExistente != null) {
                             System.out.println("Digite o nome do pet: ");
                             String nomePet = scanWhile.nextLine();
-                            System.out.println("Digite a raça do pet:");
+                            System.out.println("Digite a espécie do pet: ");
                             String especie = scanWhile.nextLine();
-                            System.out.println("Digite o peso do pet:");
+                            System.out.println("Digite o peso do pet (em KG): ");
                             double peso = scanWhile.nextDouble();
                             scanWhile.nextLine();
-                            System.out.println("Digite o porte do pet:");
+                            System.out.println("Digite o tamanho do pet: ");
                             String porte = scanWhile.nextLine();
 
                             Pet novoPet = new Pet(nomePet,especie, peso, porte);
@@ -97,7 +91,6 @@ public class Main {
                         }
                     } catch (Exception e) {
                             System.out.println("Ocorreu um erro ao buscar o cliente. " + e.getMessage());
-
                     }
                 break;
 
@@ -108,31 +101,25 @@ public class Main {
                  * if para criação da validação de se o procedimento foi selecionado com um boolean para validar dentro de if~else se existe a data do procedimento disponível e criar a data.
                  */
                 case 3:
-                    if (dono != null && pet != null) {
-
-                        System.out.println("Digite o nome do cliente para agendar o procedimento:");
-                        String nomeCliente = scanWhile.nextLine();
-                        Dono clienteExistente = buscarClientePorNome(nomeCliente, listaClientes);
-
-                        if (clienteExistente != null) {
+                    System.out.println("Digite o nome do cliente para agendar o procedimento:");
+                    String nomeCliente = scanWhile.nextLine();
+                    Dono clienteExistente = buscarClientePorNome(nomeCliente, listaClientes);
+            
+                    if (clienteExistente != null && clienteExistente.getPetsDoDono().size() > 0) {
                         System.out.println("Digite a data do agendamento (dd/mm/aa): ");
                         int dia = scanWhile.nextInt();
                         int mes = scanWhile.nextInt();
                         int ano = scanWhile.nextInt();
                         System.out.println("Digite a hora do agendamento: ");
                         int hora = scanWhile.nextInt();
-                        System.out.println("Digite o valor do procedimento: ");
+                        System.out.println("Selecione o procedimento e o valor do procedimento: ");
+                        System.out.println("1 - Consulta(R$30,00)");
+                        System.out.println("2 - Vacina(R$70,00)");
+                        System.out.println("3 - Banho(R$50,00)");
+                        System.out.println("4 - Tosa(R$65,00)");
+                        System.out.println("5 - Cirurgia(R$250,00)");
+                        int opcaoProcedimento = scanWhile.nextInt();
                         double valor = scanWhile.nextDouble();
-                        System.out.println("Selecione o procedimento: ");
-
-                        System.out.println("1 - Consulta");
-                        System.out.println("2 - Vacina");
-                        System.out.println("3 - Banho");
-                        System.out.println("4 - Tosa");
-                        System.out.println("5 - Cirurgia");
-
-                        int opcaoProcedimento = scanWhile.nextInt();                        
-
                         Procedimentos procedimentoSelecionado = null;
                         switch (opcaoProcedimento) {
                             case 1:
@@ -153,17 +140,15 @@ public class Main {
                             default:
                                 System.out.println("Procedimento não disponível!");
                                 break;
-                            }
-                            if (procedimentoSelecionado != null) {
-                                boolean agendado = agendamentos.addAgenda(dia, mes, ano, hora, valor, procedimentoSelecionado);
-                                if (agendado) {
-                                    System.out.println("Procedimento agendado com sucesso!");
-                                } else {
-                                    System.out.println("Não foi possível agendar o procedimento!");
-                                }
-                            }
+                        }
+            
+                        if (procedimentoSelecionado != null) {
+                            boolean agendado = agendamentos.addAgenda(dia, mes, ano, hora, valor, procedimentoSelecionado);
+                            if (agendado) {
+                                System.out.println("Procedimento agendado com sucesso!");
                             } else {
-                            System.out.println("Cliente não encontrado. Cadastre o cliente antes de agendar o procedimento!");
+                                System.out.println("Não foi possível agendar o procedimento!");
+                            }
                         }
                     } else {
                         System.out.println("Cadastre um cliente e um pet antes de agendar um procedimento!");
@@ -175,7 +160,6 @@ public class Main {
                  * Mostra as datas disponíveis desconsiderando finais de semana sábado e domingo.
                  */
                 case 4:
-
                     try{
                         System.out.println("Digite uma data (dd/mm/aa) para verificar disponibilidade: ");
                         int diaVerificar = scanWhile.nextInt();
@@ -183,12 +167,17 @@ public class Main {
                         int anoVerificar = scanWhile.nextInt();
                         System.out.println("Digite um horario para verificar disponibilidade: ");
                         int horaVerificar = scanWhile.nextInt();
-                        boolean disponivel = agendamentos.verificarDisponibilidade(horaVerificar, diaVerificar, mesVerificar, anoVerificar);
-                        if(disponivel) System.out.println("Horario agendado com sucesso!");
-                        else System.out.println("Horario indisponível.");
+                        if(agendamentos.verificarDisponibilidade(diaVerificar, mesVerificar, anoVerificar, horaVerificar)){
+                            if(agendamentos.verificarDisponibilidade(diaVerificar, mesVerificar, anoVerificar, horaVerificar)){
+                                System.out.println("Horario disponível!");
+                            } else {
+                                System.out.println("Horario indisponível.");
+                            }
+                        } else {
+                            System.out.println("Data inválida!");
+                        }
                     } catch(Exception ex){
                         System.out.println("Houve um erro: " + ex.getMessage());
-
                     }
                     break;
                 /*
@@ -197,7 +186,6 @@ public class Main {
                  * Cada agendamento possui um valor específico criado anteriormente.
                  */
                 case 5:
-
                     try{
                         System.out.println("Digite um dia para verificar o saldo total do dia: ");
                         int dia = scanWhile.nextInt();
@@ -209,14 +197,12 @@ public class Main {
                     }catch (Exception ex){
                         System.out.println("Houve um erro: " + ex.getMessage());
                     }
-
                     break;
                 /*
-                 * Case 6 mostra todos os procedimentos realizados no dia.
+                 * Case 6 mostra todos os procedimentos realizados no dia escolhido.
                  * Isto vai ser buscado em um relatório pré-estipulado com valores da data anterior para exemplo.
                  */
                 case 6:
-
                     try {
                         System.out.println("Digite um dia para verificar os procedimentos realizados no dia: ");
                         int diaConsulta = scanWhile.nextInt();
@@ -233,7 +219,6 @@ public class Main {
                                 + "Procedimento: " + agendamento.getProcedimento()
                                 + "Valor cobrado: " + agendamento.getValor());
                             }
-
                         }
                         
                     } catch (Exception ex) {
@@ -242,15 +227,16 @@ public class Main {
                     break;
                 /*
                  * Case 7 mostra todos os clientes com todos os pets ligados e este cliente em específico.
+                 * Aqui temos o uso de expressões lambda
                  */
                 case 7:
-
                     System.out.println("Lista de clientes e seus pets: ");
-
-                    for(Dono cliente : listaClientes){
-                        System.out.println("Cliente: " + cliente.getNome());
-                        cliente.listarPetsDoDono();
-                    }
+                    listaClientes.forEach(cliente -> {
+                    System.out.println("Cliente: " + cliente.getNome());
+                    cliente.getPetsDoDono().forEach(pet -> {
+                        System.out.println("Pet: " + pet.getNomePet() + " - Espécie: " + pet.getEspecie());
+                    });
+                });
                     break;
                 /*
                  * Case 8 é a criação do relatório com as informações e quantidades
@@ -286,6 +272,7 @@ public class Main {
                         //Informações sobre o valor arrecadado no dia
                         double valorTotal = agendamentos.calcularValorTotalDia(LocalDateTime.now().getDayOfMonth());
                         writer.write("Valor total arrecadado no dia: " + valorTotal + "\n");
+                        writer.write("----------------------------------");
 
                     } catch (IOException e) {
                         System.out.println("Erro ao gerar relatorio: " + e.getMessage());
@@ -299,10 +286,8 @@ public class Main {
                     break;
                 case 0:
                     System.out.println("Desligando, obrigado!");
-
                     scanOpt.close();
                     scanWhile.close();
-
                     return;
                 default:
                     System.out.println("Opção inválida!");
@@ -317,5 +302,5 @@ public class Main {
             }
         }
         return null;
-    }
+    }    
 }

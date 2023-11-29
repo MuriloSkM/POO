@@ -1,5 +1,5 @@
 public enum Procedimentos {
-    CONSULTA(100.00), 
+    CONSULTA(30.00), 
     VACINA(70.00),
     BANHO(50.00), 
     TOSA(65.00), 
